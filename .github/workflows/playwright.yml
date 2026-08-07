@@ -8,6 +8,16 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      HR_USERNAME: ${{ secrets.HR_USERNAME }}
+      HR_PASSWORD: ${{ secrets.HR_PASSWORD }}
+      PAYROLL_OFFICER_USERNAME: ${{ secrets.PAYROLL_OFFICER_USERNAME }}
+      PAYROLL_OFFICER_PASSWORD: ${{ secrets.PAYROLL_OFFICER_PASSWORD }}
+      EMPLOYEE_USERNAME: ${{ secrets.EMPLOYEE_USERNAME }}
+      EMPLOYEE_PASSWORD: ${{ secrets.EMPLOYEE_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
