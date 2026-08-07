@@ -60,7 +60,7 @@ tests/
 Clone the repository.
 
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/KngCd/QA-Testing---Kaneko_HRMS.git)
 ```
 
 Install dependencies.
@@ -79,7 +79,7 @@ Example:
 
 ```env
 # Application URL
-BASE_URL=http://localhost:8000
+BASE_URL=https://kuboware.com/HumanResourceManagementSystem/public/login
 
 # Admin Account
 ADMIN_USERNAME=
