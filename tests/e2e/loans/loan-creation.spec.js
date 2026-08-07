@@ -1,0 +1,97 @@
+import { test, expect } from '../../fixtures/base.fixture';
+import loanTypes from '../../data/loan-types.json' with { type: 'json' };
+
+const loan = loanTypes.deductionLoanType;
+const brackets = loanTypes.interestBrackets;
+
+test.describe('Loan Creation Tests', () => {
+
+    test.beforeEach(async ({ page, users, loginPage }) => {
+        await loginPage.goto();
+        await loginPage.loginAs(users.admin);
+
+        await expect(page).toHaveTitle(/dashboard/i);
+    });
+
+    test('should create new deduction/loan types', async ({ deductionLoanTypesPage, page }) => {
+
+        await deductionLoanTypesPage.goto();
+
+        await deductionLoanTypesPage.clickAddButton();
+
+        // Fill the form fields
+        await deductionLoanTypesPage.createLoan(loan);
+
+        // Should add the new deduction / loan type in the table
+        const row = page.getByRole('row').filter({
+            has: page.getByRole('cell', { name: loan.name })
+        });
+
+        await expect(row).toBeVisible();
+        await expect(row).toContainText(loan.code);
+    })
+
+    // Pre-requisite: Test 1 should be successful
+    test('should add interest brackets to a loan type', async ({ deductionLoanTypesPage, page }) => {
+
+        await deductionLoanTypesPage.goto();
+        await deductionLoanTypesPage.editLoan('ECU LOAN IV');
+
+        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
+
+        await deductionLoanTypesPage.addInterestBracket(brackets.valid);
+
+        await expect(page.getByRole('main').getByText(brackets.valid.successMessage)).toBeVisible();
+
+        await deductionLoanTypesPage.expectFirstBracket('0.00', 'and above', '1%');
+    });
+
+    /*
+        NEGATIVE TEST CASE
+    */
+
+    // Pre-requisite: Test 2 should be successful
+    test('should reject invalid brackets', async ({ deductionLoanTypesPage, page }) => {
+
+        await deductionLoanTypesPage.goto();
+
+        await deductionLoanTypesPage.editLoan('ECU LOAN IV');
+
+        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
+
+        // Overlapping range
+        await deductionLoanTypesPage.addInterestBracket(brackets.overlappingRange)
+        await expect(page.getByRole('listitem').getByText(brackets.overlappingRange.expectedError)).toBeVisible();
+        
+        // Invalid range
+        await deductionLoanTypesPage.addInterestBracket(brackets.invalidRange)
+        await expect(page.getByRole('listitem').getByText(brackets.invalidRange.expectedError)).toBeVisible();
+        
+        // Invalid rate
+        await deductionLoanTypesPage.addInterestBracket(brackets.invalidRate)
+        await expect(page.getByRole('listitem').getByText(brackets.invalidRate.expectedError)).toBeVisible();
+    });
+
+    /*
+        END NEGATIVE TEST CASE
+    */
+
+    // Pre-requisite: Test 2 should be successful
+    test('should remove an interest bracket', async ({ deductionLoanTypesPage, page }) => {
+        await deductionLoanTypesPage.goto();
+
+        await deductionLoanTypesPage.editLoan('ECU LOAN IV');
+        
+        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
+
+        // Remove the first interest bracket
+        await deductionLoanTypesPage.expectFirstBracket('0.00', 'and above', '1%');
+        await deductionLoanTypesPage.removeFirstBracket();
+
+        // Verify the confirmation message
+        await deductionLoanTypesPage.confirmRemoveBracket();
+
+        await expect(page.getByRole('main').getByText(brackets.remove.successMessage)).toBeVisible();
+    });
+
+});

@@ -1,0 +1,36 @@
+{
+  "name": "qa-testing---kaneko_hrms",
+  "version": "1.0.0",
+  "description": "Playwright automation framework for HRMS testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:chrome": "playwright test --project=chrome",
+    "test:chrome:headed": "playwright test --project=chrome --headed",
+    "test:firefox": "playwright test --project=firefox",
+    "test:firefox:headed": "playwright test --project=firefox --headed",
+    "test:webkit": "playwright test --project=webkit",
+    "test:webkit:headed": "playwright test --project=webkit --headed",
+    "test:msedge": "playwright test --project=msedge",
+    "test:msedge:headed": "playwright test --project=msedge --headed",
+
+    "report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "qa",
+    "hrms",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.1.2",
+    "dotenv": "^17.4.2"
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "deductionLoanType": {
+        "name": "Test Diminishing Loan",
+        "code": "TDL",
+        "category": "company_loan",
+        "nature": "loan",
+        "interestMethod": "diminishing",
+        "defaultTerm": "5",
+        "maxTerm": "12"
+    },
+    "interestBrackets": {
+        "valid": {
+            "min": "0",
+            "max": "",
+            "rate": "1",
+            "successMessage": "Interest bracket added."
+        },
+        "overlappingRange": {
+            "min": "500",
+            "max": "10000",
+            "rate": "2",
+            "expectedError": "This range overlaps an existing bracket."
+        },
+        "invalidRange": {
+            "min": "5000",
+            "max": "4000",
+            "rate": "1",
+            "expectedError": "The max amount field must be greater than 5000."
+        },
+        "invalidRate": {
+            "min": "0",
+            "max": "",
+            "rate": "150",
+            "expectedError": "The monthly rate field must not be greater than 100."
+        },
+        "remove": {
+            "successMessage": "Interest bracket removed."
+        }
+    }
+}
