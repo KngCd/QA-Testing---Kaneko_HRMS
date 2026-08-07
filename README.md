@@ -1,3 +1,4 @@
+![Playwright Tests](https://github.com/KngCd/QA-Testing---Kaneko_HRMS/actions/workflows/playwright.yml/badge.svg)
 # Kaneko HRMS - Playwright Automation
 
 Automated End-to-End (E2E) testing framework for the **Kaneko HRMS** web application using **Playwright** and **JavaScript**.
