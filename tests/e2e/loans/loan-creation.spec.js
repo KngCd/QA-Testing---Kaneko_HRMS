@@ -92,7 +92,7 @@ test.describe('Loan Creation Tests', () => {
         await expect(page.getByRole('main').getByText(brackets.remove.successMessage)).toBeVisible();
     });
 
-    test.only('should change the loan nature when updated', async({ deductionLoanTypesPage, page }) => {
+    test('should change the loan nature when updated', async({ deductionLoanTypesPage, page }) => {
         
         await deductionLoanTypesPage.goto();
         await page.pause();
