@@ -2,6 +2,7 @@ import { test, expect } from '../../fixtures/base.fixture';
 import loanTypes from '../../data/loan-types.json' with { type: 'json' };
 
 const loan = loanTypes.deductionLoanType;
+const editLoan = loanTypes.editDeductionLoanType;
 const brackets = loanTypes.interestBrackets;
 
 test.describe('Loan Creation Tests', () => {
@@ -36,8 +37,7 @@ test.describe('Loan Creation Tests', () => {
 
         await deductionLoanTypesPage.goto();
         await deductionLoanTypesPage.editLoan('ECU LOAN IV');
-
-        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
+        await deductionLoanTypesPage.expectInterestBracketsSection();
 
         await deductionLoanTypesPage.addInterestBracket(brackets.valid);
 
@@ -56,8 +56,7 @@ test.describe('Loan Creation Tests', () => {
         await deductionLoanTypesPage.goto();
 
         await deductionLoanTypesPage.editLoan('ECU LOAN IV');
-
-        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
+        await deductionLoanTypesPage.expectInterestBracketsSection();
 
         // Overlapping range
         await deductionLoanTypesPage.addInterestBracket(brackets.overlappingRange)
@@ -81,9 +80,8 @@ test.describe('Loan Creation Tests', () => {
         await deductionLoanTypesPage.goto();
 
         await deductionLoanTypesPage.editLoan('ECU LOAN IV');
+        await deductionLoanTypesPage.expectInterestBracketsSection();
         
-        await expect(page.getByText('Interest Brackets Rate (')).toBeVisible();
-
         // Remove the first interest bracket
         await deductionLoanTypesPage.expectFirstBracket('0.00', 'and above', '1%');
         await deductionLoanTypesPage.removeFirstBracket();
@@ -92,6 +90,20 @@ test.describe('Loan Creation Tests', () => {
         await deductionLoanTypesPage.confirmRemoveBracket();
 
         await expect(page.getByRole('main').getByText(brackets.remove.successMessage)).toBeVisible();
+    });
+
+    test.only('should change the loan nature when updated', async({ deductionLoanTypesPage, page }) => {
+        
+        await deductionLoanTypesPage.goto();
+        await page.pause();
+        await deductionLoanTypesPage.editLoan('Coop Dues', { nature: editLoan.nature });
+
+        // Save the updated loan
+        await deductionLoanTypesPage.saveLoan();
+
+        await expect(page.getByRole('main').getByText(editLoan.successMessage)).toBeVisible();
+
+        await deductionLoanTypesPage.expectLoanRow(editLoan.name, { nature: editLoan.nature });
     });
 
 });

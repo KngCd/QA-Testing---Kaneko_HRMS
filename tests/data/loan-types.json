@@ -8,6 +8,16 @@
         "defaultTerm": "5",
         "maxTerm": "12"
     },
+    "editDeductionLoanType": {
+        "name": "Coop Dues",
+        "code": "",
+        "category": "",
+        "nature": "loan",
+        "interestMethod": "",
+        "defaultTerm": "",
+        "maxTerm": "",
+        "successMessage": "Deduction/loan type updated."
+    },
     "interestBrackets": {
         "valid": {
             "min": "0",
